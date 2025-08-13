@@ -120,7 +120,7 @@
         <p>Selecione os arquivos, reordene e clique em juntar.</p>
 
         <div class="file-input-wrapper">
-            <span id="file-input-label">Clique para selecionar os arquivos PDF</span>
+            <span id="file-input-label">Clique ou arraste aqui para selecionar os arquivos PDF</span>
             <input type="file" id="file-input" multiple accept=".pdf" title="Selecione um ou mais arquivos PDF">
         </div>
 
@@ -181,7 +181,7 @@
         });
         function updateButtonsAndLabel() {
             const fileCount = selectedFiles.length;
-            if (fileCount === 0) fileInputLabel.textContent = 'Clique para selecionar os arquivos PDF';
+            if (fileCount === 0) fileInputLabel.textContent = 'Clique ou arraste aqui para selecionar os arquivos PDF';
             else if (fileCount === 1) fileInputLabel.textContent = '1 arquivo selecionado. Adicione mais!';
             else fileInputLabel.textContent = `${fileCount} arquivos selecionados. Adicione mais!`;
             mergeButton.disabled = fileCount < 2;
