@@ -5,36 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juntar PDFs - Ferramenta para Iframe</title>
 
-    <!-- SCRIPT DE SEGURANÇA - DEVE VIR PRIMEIRO -->
+    <!-- SCRIPT DE SEGURANÇA -->
     <script>
         // ***************************************************************
         // ** CONFIGURE AQUI A URL DO SEU BLOG (OBRIGATÓRIO)             **
-        // ** Use https:// e não inclua uma barra no final.             **
         // ***************************************************************
         const allowedOrigin = "https://omniholopanto.blogspot.com"; 
 
         function checkAccess() {
             const isFramed = window.self !== window.top;
             const referrer = document.referrer;
-            // Verifica se o referenciador (a página que contém o iframe) começa com a URL do seu blog.
             const isAllowedReferrer = referrer.startsWith(allowedOrigin);
 
             if (isFramed && isAllowedReferrer) {
-                // Se estiver em um iframe NO blog correto, mostra a ferramenta.
                 document.getElementById('app-container').style.display = 'flex';
                 document.getElementById('access-denied').style.display = 'none';
             } else {
-                // Se for acesso direto ou de outro site, esconde a ferramenta e mostra a mensagem de erro.
                 document.getElementById('app-container').style.display = 'none';
                 const accessDeniedElem = document.getElementById('access-denied');
                 accessDeniedElem.style.display = 'block';
-                // Adiciona o link correto na mensagem de erro.
                 document.getElementById('blog-link').href = allowedOrigin;
                 document.getElementById('blog-link').innerText = allowedOrigin;
             }
         }
-
-        // Executa a verificação assim que o DOM estiver pronto.
         document.addEventListener('DOMContentLoaded', checkAccess);
     </script>
 
@@ -48,13 +41,17 @@
 
         /* O container da aplicação começa escondido */
         #app-container {
-            display: none; /* Alterado para none. O script de segurança irá mostrá-lo se o acesso for permitido */
-            width: 800px;
+            display: none; /* O script de segurança irá mostrá-lo */
+            
+            /* ======== DIMENSÕES AJUSTADAS ======== */
+            width: 550px;
             height: 900px;
+            
             margin: 0 auto;
+            display: flex;
             flex-direction: column;
             background: #fff;
-            padding: 1.5em;
+            padding: 1.5em 1.2em; /* Padding horizontal um pouco menor */
             box-sizing: border-box;
             overflow: hidden;
         }
@@ -64,20 +61,16 @@
             flex-shrink: 0;
         }
 
-        /* Estilo para a mensagem de acesso negado */
         #access-denied {
-            display: none; /* Começa escondido */
+            display: none;
             padding: 4em 2em;
             text-align: center;
-            max-width: 700px;
+            max-width: 500px;
             margin: 50px auto;
         }
+        #access-denied h2 { color: #dc3545; }
 
-        #access-denied h2 {
-            color: #dc3545;
-        }
-
-        h1 { margin-top: 0; margin-bottom: 0.5em; text-align: center; }
+        h1 { margin-top: 0; margin-bottom: 0.5em; text-align: center; font-size: 1.8em; }
         p { margin-bottom: 1.5em; color: #666; text-align: center;}
         
         .file-input-wrapper {
@@ -91,28 +84,26 @@
             transition: background-color 0.2s;
             margin-bottom: 1em;
         }
-
         .file-input-wrapper:hover { background: #0056b3; }
         .file-input-wrapper input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         #file-input-label { pointer-events: none; }
 
         #file-list {
             list-style-type: none;
-            padding: 0;
+            padding: 0.8em;
             margin-top: 1em;
             border: 2px dashed #ddd;
-            padding: 1em;
             border-radius: 5px;
             flex-grow: 1;
             overflow-y: auto;
             min-height: 100px;
         }
 
-        #file-list li { margin: 8px 0; padding: 12px; border: 1px solid #ccc; background-color: #f9f9f9; cursor: move; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; user-select: none; }
+        #file-list li { margin: 8px 0; padding: 12px; border: 1px solid #ccc; background-color: #f9f9f9; cursor: move; display: flex; justify-content: space-between; align-items: center; border-radius: 4px; user-select: none; word-break: break-all; }
         .sortable-ghost { opacity: 0.4; background: #cce5ff; }
         
         .buttons { margin-top: 1.5em; text-align: center; display: flex; gap: 10px; justify-content: center; }
-        button, .download-button { padding: 12px 25px; cursor: pointer; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; transition: all 0.2s; text-decoration: none; display: inline-block; }
+        button, .download-button { padding: 12px 20px; cursor: pointer; border: none; border-radius: 5px; font-size: 15px; font-weight: bold; transition: all 0.2s; text-decoration: none; display: inline-block; }
         #merge-button { background-color: #28a745; color: white; }
         #clear-button { background-color: #dc3545; color: white; }
         button:disabled { background-color: #ccc; cursor: not-allowed; }
@@ -124,7 +115,6 @@
 </head>
 <body>
 
-    <!-- Container da Aplicação (escondido por padrão) -->
     <div id="app-container">
         <h1>Juntar Arquivos PDF</h1>
         <p>Selecione os arquivos, reordene e clique em juntar.</p>
@@ -145,19 +135,16 @@
         </div>
     </div>
     
-    <!-- Mensagem de Acesso Negado (escondida por padrão) -->
     <div id="access-denied">
         <h2>Acesso Negado</h2>
-        <p>Esta ferramenta só pode ser usada dentro do nosso blog.</p>
-        <p>Para acessá-la, por favor, visite:</p>
+        <p>Esta ferramenta foi feita para uso exclusivo em outro site.</p>
+        <p>Para acessá-la, por favor, visite a página original:</p>
         <p><a id="blog-link" href="#" style="font-weight: bold; color: #007bff;"></a></p>
     </div>
 
-    <!-- Bibliotecas externas -->
+    <!-- Bibliotecas e Script Principal -->
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-    
-    <!-- Script principal da aplicação -->
     <script>
         const fileInput = document.getElementById('file-input');
         const fileInputLabel = document.getElementById('file-input-label');
@@ -167,18 +154,13 @@
         const downloadContainer = document.getElementById('download-container');
         const downloadLink = document.getElementById('download-link');
         const statusElem = document.getElementById('status');
-
         let selectedFiles = [];
-
         new Sortable(fileListElem, { animation: 150, ghostClass: 'sortable-ghost' });
-
         fileInput.addEventListener('change', (event) => {
             downloadContainer.style.display = 'none';
             statusElem.textContent = '';
-            
             const newFiles = Array.from(event.target.files);
             if (newFiles.length === 0) return;
-
             newFiles.forEach(file => {
                 const currentFileIndex = selectedFiles.length;
                 selectedFiles.push(file);
@@ -187,11 +169,9 @@
                 listItem.dataset.originalIndex = currentFileIndex;
                 fileListElem.appendChild(listItem);
             });
-            
             updateButtonsAndLabel();
             fileInput.value = '';
         });
-
         clearButton.addEventListener('click', () => {
             selectedFiles = [];
             fileListElem.innerHTML = '';
@@ -199,7 +179,6 @@
             downloadContainer.style.display = 'none';
             updateButtonsAndLabel();
         });
-
         function updateButtonsAndLabel() {
             const fileCount = selectedFiles.length;
             if (fileCount === 0) fileInputLabel.textContent = 'Clique para selecionar os arquivos PDF';
@@ -208,7 +187,6 @@
             mergeButton.disabled = fileCount < 2;
             clearButton.disabled = fileCount === 0;
         }
-
         mergeButton.addEventListener('click', async () => {
             const orderedFiles = getOrderedFiles();
             if (orderedFiles.length < 2) {
@@ -219,7 +197,6 @@
             clearButton.disabled = true;
             statusElem.textContent = 'Juntando os arquivos... aguarde.';
             downloadContainer.style.display = 'none';
-
             try {
                 const mergedPdf = await PDFLib.PDFDocument.create();
                 for (const file of orderedFiles) {
@@ -244,7 +221,6 @@
                 clearButton.disabled = orderedFiles.length === 0;
             }
         });
-
         function getOrderedFiles() {
             const orderedFiles = [];
             const listItems = fileListElem.getElementsByTagName('li');
